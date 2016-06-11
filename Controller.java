@@ -105,10 +105,11 @@ new Thread(new Lagger()).start();
     }
 				
     }
+				}
 				
             
     collideAndVisitSquares();
-    }
+    
 				}
     @Override
     public void keyReleased(KeyEvent e) {
