@@ -86,6 +86,7 @@ while(true){
      while(!playing.get()){
     t.repaint();
 }
+					t.setVisible(false);
      MazeRunner.playOneGame();
 while(playing.get()){
     Thread.sleep(10);
