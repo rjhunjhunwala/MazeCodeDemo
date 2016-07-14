@@ -36,8 +36,8 @@ public class TitleController implements KeyListener{
          case 'R':
              TitleFrame.TitlePanel.onHelpScreen=false;
              break;
-         case 'h':
-         case 'H':
+         case 'l':
+         case 'L':
              TitleFrame.TitlePanel.onHelpScreen=true;
              break;           
          case 'e':
