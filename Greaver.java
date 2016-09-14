@@ -13,6 +13,15 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * @author Rohans
  */
 public class Greaver {
+	public static ArrayList<Greaver> greavers = new ArrayList(100);
+	/**
+	 * We are using an integer matrix to represent the distance each spot if
+	 * from the player The players position is represented by 1 Non reachable
+	 * positions or walls or represented by 0 The reset of the positions
+	 * represent the distance needed to travel in the maze this is to be used
+	 * for efficient navigation
+	 */
+	static int[][] navigationMap;
 
     public static void floodFillMap() {
         navigationMap = new int[MazeRunner.map.length][MazeRunner.map[0].length];
@@ -53,14 +62,34 @@ markOpen(MazeRunner.p.getXBlock(),MazeRunner.p.getYBlock(),1);
             g.ageInHours++;
         });
     }
+
+	public static void processGreavers() {
+		floodFillMap();
+		greavers.stream().filter((g) -> (g != null && g.alive.get())).forEach((Greaver greaver) -> {
+			greaver.move();
+			if (navigationMap[greaver.getXBlock()][greaver.getYBlock()] == 1) {
+				System.out.println("The greaver ate you!");
+				//todo allow the user to play again...
+				//for now
+				MazeRunner.playerIsAlive.set(false);
+			}
+			//kill it if its too old
+			if (greaver.ageInHours > 4) {
+				greaver.die();
+			}
+		});
+	}
+
+	public static void killAllGreavers() {
+		greavers = new ArrayList(100);
+	}
     AtomicBoolean alive = new AtomicBoolean(true);
     int ageInHours = 0;
     int x;
-    int y;
-    double angle = 0;
-    public static ArrayList<Greaver> greavers = new ArrayList(100);
-
-    public Greaver(int inX, int inY) {
+				int y;
+				double angle = 0;
+				
+				public Greaver(int inX, int inY) {
         x = inX;
         y = inY;
         MazeRunner.map[getXBlock()][getYBlock()] = MazeRunner.enemy;
@@ -131,34 +160,5 @@ markOpen(MazeRunner.p.getXBlock(),MazeRunner.p.getYBlock(),1);
             x = movementCoords[0];
             y = movementCoords[1];
         }
-    }
-    /**
-     * We are using an integer matrix to represent the distance each spot if
-     * from the player The players position is represented by 1 Non reachable
-     * positions or walls or represented by 0 The reset of the positions
-     * represent the distance needed to travel in the maze this is to be used
-     * for efficient navigation
-     */
-    static int[][] navigationMap;
-
-    public static void processGreavers() {
-        floodFillMap();
-        greavers.stream().filter((g) -> (g != null && g.alive.get())).forEach((Greaver greaver) -> {
-            greaver.move();
-            if (navigationMap[greaver.getXBlock()][greaver.getYBlock()] == 1) {
-                System.out.println("The greaver ate you!");
-                //todo allow the user to play again...
-                //for now 
-                MazeRunner.playerIsAlive.set(false);
-            }
-            //kill it if its too old
-            if (greaver.ageInHours > 4) {
-                greaver.die();
-            }
-        });
-    }
-
-    public static void killAllGreavers() {
-        greavers = new ArrayList(100);
     }
 }
