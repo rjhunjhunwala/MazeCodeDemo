@@ -5,4 +5,5 @@ w/s forward back<br/>
 a/d turn head left or right<br/>
 f to shoot<br/>
 z/c for strafing <br/>
-SHIFT key for sprinting
+SHIFT key for sprinting<br/>
+![alt tag](https://raw.githubusercontent.com/rjhunjhunwala/MazeRunner/master/Rendered.png)
